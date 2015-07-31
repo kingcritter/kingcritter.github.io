@@ -9,8 +9,11 @@ var sort_j=1;
 function insertionSort(A, id) {
 	if (sort_i >= A.length) {
 		window.clearTimeout(id);
+<<<<<<< HEAD
 		sort_i = 1;
 		sort_j = 1;
+=======
+>>>>>>> 6eb1471196d00eddbb1932104fe898e8145f8e88
 	}
 	else {
 
@@ -76,6 +79,7 @@ function sort() {
 	insertionSort(bars, intervalID);
 	drawBars();
     }, 50); 
+<<<<<<< HEAD
 }
 
 function update_N() {
@@ -86,6 +90,8 @@ function update_N() {
 		generate_bars();
 		drawBars();
 	}
+=======
+>>>>>>> 6eb1471196d00eddbb1932104fe898e8145f8e88
 }
 
 // main: stuff that runs first:
