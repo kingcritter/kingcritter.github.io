@@ -9,6 +9,8 @@ var sort_j=1;
 function insertionSort(A, id) {
 	if (sort_i >= A.length) {
 		window.clearTimeout(id);
+		sort_i = 1;
+		sort_j = 1;
 	}
 	else {
 
@@ -43,15 +45,18 @@ ctx.fillStyle = "FF0000";
 // all bars are gonna be in this array
 var bars = [];
 // initilize bar objects and populate bars
-for (var i = 0; i < N; i++) {
-	var bar = new barObj();
-	bars.push(bar);
-	bar.value = Math.random();
-	bar.height = Math.floor(bar.value*c.height);
-	bar.y = c.height;
-	bar.x = i*10;
-	bar.width = 10;
-	
+function generate_bars() {
+	// clear bars list:
+	bars = []
+	for (var i = 0; i < N; i++) {
+		var bar = new barObj();
+		bars.push(bar);
+		bar.value = Math.random();
+		bar.height = Math.floor(bar.value*c.height);
+		bar.y = c.height;
+		bar.x = i*10;
+		bar.width = 10;
+	}
 }
 
 // draw the bars:
@@ -73,5 +78,17 @@ function sort() {
     }, 50); 
 }
 
+function update_N() {
+	var new_n = document.getElementById("n_entry").value;
+	if (isNaN(new_n) === false && new_n > 0) {
+		document.getElementById("current_N").innerHTML = new_n;
+		N = new_n;
+		generate_bars();
+		drawBars();
+	}
+}
+
 // main: stuff that runs first:
+generate_bars();
 drawBars();
+document.getElementById("current_N").innerHTML = N;
