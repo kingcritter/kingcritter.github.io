@@ -30,6 +30,7 @@ function merge(left, right) {
 			result.push(r);
 			left.unshift(l);
 		}
+	}
 	// deal with leftover elements
 	while (left.length > 0) {
 		result.push(left.shift());

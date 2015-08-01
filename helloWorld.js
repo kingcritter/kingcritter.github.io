@@ -19,17 +19,22 @@ function sort() {
 function update_N() {
 	var new_n = document.getElementById("n_entry").value;
 	if (isNaN(new_n) === false && new_n > 0) {
-		resetInsertionSortLoop(loopIntervalID);
-		document.getElementById("current_N").innerHTML = new_n;
-		N = new_n;
-		bars = generate_bars(N);
-		drawBars();
+		if (new_n > c.width/10) {
+			alert("Number too big!")
+		}
+		else {
+			resetInsertionSortLoop(loopIntervalID);
+			document.getElementById("current_N").innerHTML = new_n;
+			N = new_n;
+			bars = generate_bars(N);
+			drawBars();
+		}
 	}
 }
 
 // fires when radio buttons are clicked; all radio buttons
 // activate this, but pass in the name of whatever sort algo
-function switchAlogrithm(algoName) {
+function switchAlgorithm(algoName) {
 	currentSortMethod = algoName;
 }
 
