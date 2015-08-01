@@ -6,9 +6,7 @@ var sort_j=1;
 
 function insertionSort(A, id) {
     if (sort_i >= A.length) {
-        window.clearTimeout(id);
-        sort_i = 1;
-        sort_j = 1;
+        resetInsertionSortLoop(id)
     }
     else {
 
@@ -24,4 +22,10 @@ function insertionSort(A, id) {
         }
     }
 
+}
+
+function resetInsertionSortLoop(id) {
+    window.clearTimeout(id);
+    sort_i = 1;
+    sort_j = 1;
 }

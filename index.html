@@ -1,7 +1,14 @@
 <html>
 <body>
 <script src="InsertionSort.js"></script>
+<script src="Merge.js"></script>
 <script src="Graphics.js"></script>
+<input id="radioInsertion" type="radio" name="sortAlgo" 
+       value="insertion" checked="checked" 
+       onclick="switchAlgorithm('insertion')"/>Insertion Sort
+<input id="radioMerge" type="radio" name="sortAlgo" 
+       value="merge" onclick="switchAlgorithm('merge')"/>Merge Sort
+
 <canvas id="canvas" width="400" hieght="200"></canvas>
 <p></p>
 number of things<br />
