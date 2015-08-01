@@ -1,6 +1,7 @@
 // so this is a step-by-step insertion sort, because "sleep"
 // doesn't exist. Every time this function is called, 
 // the list gets one step close to being sorted.
+
 var sort_i=1;
 var sort_j=1;
 
