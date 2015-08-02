@@ -1,17 +1,34 @@
 // globals
 var N = 30;
-var bars;
+var array;
 var loopIntervalID;
 var currentSortMethod = "insertion";
 
 // Sets up an interval to sort and update the canvas.
 // Triggered by onclick event.
 function sort() {
+	var history = [];
+	if (currentSortMethod === "insertion") {
+		history = insertionSort(array);
+	} else if (currentSortMethod === "bubble") {
+		history = bubbleSort(array);
+	}
+
 	loopIntervalID = window.setInterval(function() {
-	insertionSort(bars, loopIntervalID);
-	drawBars();
+		replayHistory(history, loopIntervalID);
     }, 50); 
 }
+
+// plays the next thing from the history queue
+function replayHistory(history, id) {
+	if (history.length > 0) {
+		drawBars(history.shift());
+	}
+	else {
+		window.clearTimeout(id);
+	}
+}
+
 
 // runs when button is clicked, updates the number of bars
 // and redraws the screen.
@@ -23,11 +40,11 @@ function update_N() {
 			alert("Number too big!")
 		}
 		else {
-			resetInsertionSortLoop(loopIntervalID);
+			window.clearTimeout(loopIntervalID);
 			document.getElementById("current_N").innerHTML = new_n;
 			N = new_n;
-			bars = generate_bars(N);
-			drawBars();
+			array = newArray(N);
+			drawBars(array);
 		}
 	}
 }
@@ -36,17 +53,28 @@ function update_N() {
 // activate this, but pass in the name of whatever sort algo
 function switchAlgorithm(algoName) {
 	currentSortMethod = algoName;
+	window.clearTimeout(loopIntervalID);
 }
 
+// randomly generate a new array of length N
+function newArray(n) {
+	var newArray = []
+	for (i = 0; i < n; i++) {
+		newArray.push(Math.random());
+	}
+	return newArray;
+}
 
 // main: stuff that runs first:
 
+//canvas shit
 var c = document.getElementById("canvas");
 c.height = 200;
 c.width = 400;
 var ctx = c.getContext("2d");
 ctx.fillStyle = "FF0000";
 
-bars = generate_bars(N);
-drawBars();
+array = newArray(N);
+drawBars(array);
+
 document.getElementById("current_N").innerHTML = N;
