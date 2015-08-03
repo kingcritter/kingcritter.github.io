@@ -9,5 +9,6 @@ function drawBars(array) {
         var pos = i*10;
         var height = Math.floor(array[i] * c.height)
         ctx.fillRect(pos, c.height, barWidth, -height);
+        ctx.strokeRect(pos, c.height, barWidth, -height);
     }
 }
