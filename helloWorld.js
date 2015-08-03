@@ -5,31 +5,34 @@ var loopIntervalID;
 var currentSortMethod = "insertion";
 var state = 0 // 0 for not sorting, 1 for sorting
 
-// object used to describe sort methods:
-function sortMethod(name, method) {
-	this.name = name;
-	this.method = method;
-}
 
-// global list of all sorts:
-var listOfSorts = [
-	new sortMethod("insertion", "insertionSort()"),
-	new sortMethod("bubble", "bubbleSort()")
-];
+var listOfSorts = {
+	"insertion": insertionSort,
+	"bubble": bubbleSort
+};
 
 // Sets up an interval to sort and update the canvas.
 // Triggered by onclick event.
 function sort() {
-	var history = [];
-	if (currentSortMethod === "insertion") {
-		history = insertionSort(array);
-	} else if (currentSortMethod === "bubble") {
-		history = bubbleSort(array);
-	}
-
-	loopIntervalID = window.setInterval(function() {
-		replayHistory(history, loopIntervalID);
-    }, 50); 
+	if (state === 0) {
+		state = 1;
+		var history = listOfSorts[currentSortMethod](array);
+		// set up the interval to animate display
+		loopIntervalID = window.setInterval(function() {
+			replayHistory(history, loopIntervalID);
+    	}, 50);
+    	// changes button text
+    	var button = document.getElementById("sort");
+    	button.innerHTML = "Restart";
+    }
+    else { // if currently sorting, stop and refresh
+    	state = 0;
+    	window.clearTimeout(loopIntervalID);
+    	array = newArray();
+    	drawBars(array);
+    	var button = document.getElementById("sort");
+    	button.innerHTML = "Sort this thang";
+    }
 }
 
 // plays the next thing from the history queue
@@ -39,20 +42,11 @@ function replayHistory(history, id) {
 	}
 	else {
 		window.clearTimeout(id);
+		state = 0;
 		var button = document.getElementById("sort");
-		button.setAttribute("onclick", "refresh()");
 		button.innerHTML = "Refresh";
 	}
 }
-
-function refresh() {
-	array = newArray(N);
-	drawBars(array);
-	var button = document.getElementById("sort");
-	button.setAttribute("onclick", "sort()");
-	button.innerHTML = "Sort this thang";
-}
-
 
 // runs when button is clicked, updates the number of bars
 // and redraws the screen.
@@ -111,19 +105,18 @@ document.getElementById("current_N").innerHTML = N;
 var buttonArea = document.getElementById("radioButtons");
 console.log(buttonArea);
 
-for (i = 0; i < listOfSorts.length; i++) {
-	var sortType = listOfSorts[i]; 
+for (sortType in listOfSorts) {
 	var button = document.createElement("input");
 	// set attributes: onclick, type, name
-	button.setAttribute("onclick", "switchAlgorithm('" + sortType.name + "')");
+	button.setAttribute("onclick", "switchAlgorithm('" + sortType + "')");
 	button.setAttribute("type", "radio");
 	button.setAttribute("name", "sort");
-	var text = document.createTextNode(sortType.name);
+	var text = document.createTextNode(sortType);
 	buttonArea.appendChild(button);
 	buttonArea.appendChild(text);
 
 	//set default:
-	if (i === 0) {
+	if (sortType === "insertion") {
 		button.setAttribute("checked", "checked");
 	}
 }
