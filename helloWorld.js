@@ -1,9 +1,27 @@
-// globals
-var N = 30;
-var array;
-var loopIntervalID;
-var currentSortMethod = "insertion";
-var state = 0 // 0 for not sorting, 1 for sorting
+// sortVisualizer!
+// as it's one and only argument, it
+// takes the document ID into which it creates it's GUI elements
+function sortVisualizer(
+	this.N = 30;
+	this.array;
+	this.loopIntervalID;
+	this.currentSortMethod = "insertion";
+	this.sorting = false // 0 for not sorting, 1 for sorting
+
+	var c = document.getElementById("canvas");
+	this.graphics = new Graphics(c);
+
+
+
+
+
+
+
+
+	array = newArray(N);
+	drawBars(array);
+
+
 
 
 var listOfSorts = {
@@ -11,11 +29,26 @@ var listOfSorts = {
 	"bubble": bubbleSort
 };
 
+// sort button object
+// takes the actual button Obj as constructer argument
+function sortButtonObj(buttonObj) {
+	this.text = "Sort";
+	this.actions = {
+		"Sort" : "'sort()'",
+		"Restart" : "'restart()'"
+	}
+
+	this.changeAction = function(action) {
+		this.text = action;
+		buttonObj.setAttribute("onclick", this.actions[action]);
+	}
+}
+
 // Sets up an interval to sort and update the canvas.
 // Triggered by onclick event.
-function sort() {
-	if (state === 0) {
-		state = 1;
+function sort(buttonCallback) {
+	if (!sorting) {
+		sorting = true;
 		var history = listOfSorts[currentSortMethod](array);
 		// set up the interval to animate display
 		loopIntervalID = window.setInterval(function() {
@@ -26,7 +59,7 @@ function sort() {
     	button.innerHTML = "Restart";
     }
     else { // if currently sorting, stop and refresh
-    	state = 0;
+    	sorting = false;
     	window.clearTimeout(loopIntervalID);
     	array = newArray();
     	drawBars(array);
@@ -88,16 +121,7 @@ function newArray(n) {
 // main: stuff that runs first:
 
 //canvas shit
-var c = document.getElementById("canvas");
-c.height = 200;
-c.width = 400;
-var ctx = c.getContext("2d");
-ctx.fillStyle = "#000000";
-ctx.strokeStyle = "#FF0000";
-ctx.linewidth = 1;
 
-array = newArray(N);
-drawBars(array);
 
 document.getElementById("current_N").innerHTML = N;
 
@@ -120,3 +144,8 @@ for (sortType in listOfSorts) {
 		button.setAttribute("checked", "checked");
 	}
 }
+// end radio button shit
+
+// set up sort button:
+var sb = document.getElementById("sort");
+var sortButton = new sortButtonObj(sb);
