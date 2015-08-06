@@ -1,7 +1,7 @@
 // sortVisualizer!
 
 // some globals
-var N = 40;
+var N = 20;
 var nInput;
 var array = newArray(N);
 var loopIntervalID;
@@ -24,7 +24,8 @@ var sortButtonElement;
 // is to write it and edit this list
 var listOfSorts = {
 	"insertion": insertionSort,
-	"bubble": bubbleSort
+	"bubble": bubbleSort,
+	"selection" : selectionSort
 };
 
 var sortButton = {
@@ -90,7 +91,7 @@ function toggleRainbow() {
 // randomly generate a new array of length n and returns it
 function newArray(n) {
 	var newArray = []
-	for (i = 0; i < n; i++) {
+	for (var i = 0; i < n; i++) {
 		newArray.push(Math.random());
 	}
 	return newArray;
