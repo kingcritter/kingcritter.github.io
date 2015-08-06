@@ -2,6 +2,7 @@
 
 // some globals
 var N = 40;
+var nInput;
 var array = newArray(N);
 var loopIntervalID;
 var sorting = false;
@@ -12,7 +13,7 @@ var rainbow = ["#E40303",
 			   "#FFED00",
 			   "#008026",
 			   "#004DFF",
-			   "#750787"]
+			   "#750787"];
 // references to dom objects (I think? HTML elements anyway)
 // that will be assigned later on in build_GUI():
 var canvas;
@@ -61,6 +62,12 @@ function switchAlgorithm(algoName) {
 	totalRefresh();
 }
 
+function changeN() {
+	var newN = nInput.value;
+	N = newN;
+	totalRefresh();
+}
+
 // generates a new array, kills the loop if it exists,
 // updates the button, and redraws the screen.
 function totalRefresh() {
@@ -104,9 +111,9 @@ function drawBars(A) {
     
     // set width of bar so it shrinks if the 
     // bars would overflow the screen:
-    var barWidth = 10
+    var barWidth = 10;
     if (A.length * barWidth > canvas.width) {
-    	barWidth = A.length / barWidth;
+    	barWidth = canvas.width / A.length;
     }
 
     // itterate over the array and draw bars
@@ -167,12 +174,25 @@ function build_GUI(element_obj) {
 	rainbowArea.appendChild(rainbowCheckbox);
 	rainbowArea.appendChild(rainText);
 
+	// change number of elements
+	var changeNArea = document.createElement("p");
+	nInput = document.createElement("input");
+	var changeN = document.createElement("button");
+	var nText = document.createTextNode("Change N");
+	nInput.setAttribute("type", "number");
+	nInput.setAttribute("min", "2");
+	nInput.setAttribute("style", "width: 4em");
+	changeNArea.appendChild(nInput);
+	changeN.appendChild(nText);
+	changeN.setAttribute("onclick", "changeN()");
+	changeNArea.appendChild(changeN);
 
 	// inserts radioArea, canvas, and sort button into
 	// document, in that order.
 	element_obj.appendChild(radioArea);
 	element_obj.appendChild(canvas);
 	element_obj.appendChild(rainbowArea);
+	element_obj.appendChild(changeNArea);
 	element_obj.appendChild(buttonArea);
 }
 
