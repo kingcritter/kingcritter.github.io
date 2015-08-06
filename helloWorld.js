@@ -1,11 +1,18 @@
 // sortVisualizer!
 
 // some globals
-var N = 30;
+var N = 40;
 var array = newArray(N);
 var loopIntervalID;
 var sorting = false;
 var currentSortMethod = "insertion";
+var gay = false;
+var rainbow = ["#E40303",
+			   "#FF8C00",
+			   "#FFED00",
+			   "#008026",
+			   "#004DFF",
+			   "#750787"]
 // references to dom objects (I think? HTML elements anyway)
 // that will be assigned later on in build_GUI():
 var canvas;
@@ -63,6 +70,16 @@ function totalRefresh() {
 	drawBars(array);
 }
 
+function toggleRainbow() {
+	if (gay === true) {
+		gay = false;
+	}
+	else {
+		gay = true;
+	}
+	totalRefresh();
+}
+
 // randomly generate a new array of length n and returns it
 function newArray(n) {
 	var newArray = []
@@ -94,6 +111,11 @@ function drawBars(A) {
 
     // itterate over the array and draw bars
     for (var i = 0; i < A.length; i++) {
+    	// set rainbow colors:
+    	ctx.fillStyle = "#000000";
+    	if (gay) {
+    		ctx.fillStyle = rainbow[Math.floor(A[i] * (rainbow.length))];
+    	}
         var pos = i*barWidth;
         var height = Math.floor(A[i] * canvas.height)
         ctx.fillRect(pos, canvas.height, barWidth, -height);
@@ -107,7 +129,7 @@ function build_GUI(element_obj) {
 	canvas.height = 200;
 	canvas.width = 400;
 	ctx = canvas.getContext("2d");
-	ctx.fillStyle = ("#000000");
+	ctx.fillStyle = "#000000";
 	ctx.strokeStyle = ("#FF0000"); // "stroke" huehuehue
 	ctx.linewidth = 1;
 
@@ -136,10 +158,21 @@ function build_GUI(element_obj) {
 	sortButtonElement.appendChild(sortButton.node);
 	buttonArea.appendChild(sortButtonElement);
 
+	// rainbow checkbox
+	var rainbowArea = document.createElement("p");
+	var rainbowCheckbox = document.createElement("input");
+	rainbowCheckbox.setAttribute("type", "checkbox");
+	rainbowCheckbox.setAttribute("onclick", "toggleRainbow()");
+	var rainText = document.createTextNode("Rainbow");
+	rainbowArea.appendChild(rainbowCheckbox);
+	rainbowArea.appendChild(rainText);
+
+
 	// inserts radioArea, canvas, and sort button into
 	// document, in that order.
 	element_obj.appendChild(radioArea);
 	element_obj.appendChild(canvas);
+	element_obj.appendChild(rainbowArea);
 	element_obj.appendChild(buttonArea);
 }
 
