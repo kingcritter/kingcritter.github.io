@@ -8,7 +8,8 @@ function bubbleSort(A) {
 				A[j] = A[j+1];
 				A[j+1] = temp;
 			}
-			history.push(A.slice());
+			var hState = new HistoryState(A.slice(), [i, j], []);
+			history.push(hState);
 		}
 	}
 	return history;

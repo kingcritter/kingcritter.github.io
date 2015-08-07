@@ -1,35 +1,47 @@
 // thanks wikipedia
 
 function merge_sort(list) {
+	var history = [];
+	return actual_merge_sort(list, [0, list.length], history);
+}
+
+function actual_merge_sort(list, indices, history) {
 	// base case
-	if (list.length <= 1) {
-		return list;
+	if (list.slice(indices[0], indices[1]) <= 1) {
+		return indices;
 	}
 
 	// split list down the middle 
-	var left = list.slice(0, list.length/2);
-	var right = list.slice(list.length/2, list.length);
-
+	var left = [indices[0], indices[1]/2];
+	var right = [indices[1]/2, indices[1]];  
 	// recursivly sort sublists
-	left = merge_sort(left);
-	right = merge_sort(right);
+	left = actual_merge_sort(list, left);
+	right = actual_merge_sort(list, right);
 
-	return merge(left, right);
+	history.push(list);
+
+	return merge(list, left, right, history);
 }
 
-function merge(left, right) {
+function merge(list, left, right, history) {
 	var result = [];
-	while (left.length > 0 && right.length > 0) {
-		var l = left.shift();
-		var r = right.shift();
+	leftCount = left[0];
+	rightCount = right[0];
+	while (leftCount < left[1] && rightCount < right[1]) {
+		var l = list[leftCount];
+		var r = right[rightCount];
 		if (l <= r) {
 			result.push(l);
-			right.unshift(r);
+			leftCount++;
 		}
 		else {
 			result.push(r);
-			left.unshift(l);
+			rightCount++;
 		}
+
+		
+
+		history.push(result);
 	}
 	// deal with leftover elements
 	while (left.length > 0) {

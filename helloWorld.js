@@ -6,7 +6,7 @@ var nInput;
 var array = newArray(N);
 var loopIntervalID;
 var sorting = false;
-var currentSortMethod = "insertion";
+var currentSortMethod;
 var gay = false;
 var rainbow = ["#E40303",
 			   "#FF8C00",
@@ -27,6 +27,16 @@ var listOfSorts = {
 	"bubble": bubbleSort,
 	"selection" : selectionSort
 };
+
+// history object to hold three things: an array, which is a copy
+// of the array at that moment in time; and array that contains 
+// the indices of the entries that are being looked at; and a new
+// array, which is totally optional, that is the sub array being built up.   
+function HistoryState(a, i, n) {
+	this.arr = a;
+	this.indices = i;
+	this.newArr = n;
+}
 
 var sortButton = {
 	action : 'sort', // sort/refresh
@@ -100,7 +110,11 @@ function newArray(n) {
 // // displays the next array from the history queue
 function replayHistory(history) {
 	if (history.length > 0) {
-		drawBars(history.shift());
+		var state = history.shift();
+		drawBars(state.arr);
+    	ctx.fillStyle = "#FF0000";
+		ctx.fillRect(state.indices[0]*10, canvas.height-5, 10, 5)
+		ctx.fillRect(state.indices[1]*10, canvas.height-5, 10, 5)
 	}
 }
 
@@ -117,6 +131,7 @@ function drawBars(A) {
     	barWidth = canvas.width / A.length;
     }
 
+
     // itterate over the array and draw bars
     for (var i = 0; i < A.length; i++) {
     	// set rainbow colors:
@@ -126,7 +141,7 @@ function drawBars(A) {
     	}
         var pos = i*barWidth;
         var height = Math.floor(A[i] * canvas.height)
-        ctx.fillRect(pos, canvas.height, barWidth, -height);
+        ctx.fillRect(pos, canvas.height-5, barWidth, -height);
         //ctx.strokeRect(pos, canvas.height, barWidth, -height);
     }
 }
@@ -154,6 +169,7 @@ function build_GUI(element_obj) {
 		radioArea.appendChild(text);
 		if (first) {
 			radio.setAttribute("checked", "checked");
+			currentSortMethod = sortType;
 			first = false;
 		}
 	}

@@ -8,6 +8,8 @@ function selectionSort(A) {
             if (A[i] < A[iMin]) {
                 iMin = i;
             }
+            var hState = new HistoryState(A.slice(), [j, i], []);
+            history.push(hState);
         }
 
         if (iMin != j) {
@@ -15,7 +17,6 @@ function selectionSort(A) {
             A[j] = A[iMin];
             A[iMin] = temp;
         }
-        history.push(A.slice());
     }
 
     return history;
