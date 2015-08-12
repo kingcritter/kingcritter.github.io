@@ -5,27 +5,26 @@ var ctx = canvas.getContext("2d");
 canvas.addEventListener("mousedown", click, false);
 
 // list of things to draw on screen
-var entities = [];
+var entities = new LinkedList();
+// pool of objects to reuse
+var deadEntities = new LinkedList();
 
-class Entity {
-    constructor() {
-        this.x;
-        this.y;
-        this.size;
-        this.type; // "sprite", "shape"
-        this.dead = false; // if true, will get removed from entity list
-    }
-}
+var Entity = {
+    x: 0,
+    y: 0,
+    size: 0,
+    type: null, // "sprite", "shape"
+    dead: false // if true, will get removed from entity list
+};
 
-class Bubble extends Entity {
-    constructor(x, y) {
-        super();
-        this.growing = true;
-        this.x = x;
-        this.y = y;
-        this.size = 1;
-    }
-    animate() {
+
+
+var Bubble = function() {
+    this.growing = true;
+    this.x = 0;
+    this.y = 0;
+    this.size = 1;
+    this.animate = function() {
         if (this.growing) {
             this.size++;
         } else {
@@ -40,21 +39,40 @@ class Bubble extends Entity {
     }
 }
 
+
+var bubbleFactory = function() {
+    if (deadEntities.length != 0) {
+        var zombie = deadEntities.first;
+        deadEntities.remove(zombie);
+        return zombie;
+    }
+    else {
+        var newGuy = new Bubble();
+        newGuy.prototype = Entity;
+        return newGuy;
+    }
+}
+
+
+
 function click(event) {
     var x = event.x;
     var y = event.y;
     x -= canvas.offsetLeft;
     y -= canvas.offsetTop;
-    var b = new Bubble(x, y);
-    entities.push(b);    
+    var b = bubbleFactory();
+    b.x = x;
+    b.y = y;
+    entities.add(b);    
 }
 
 function animationLoop() {
     clearScreen();
-    for (var i = 0; i < entities.length; i++) {
-        var entity = entities[i];
+    for (var curr = entities.first; curr != null; curr = curr.next) {
+        var entity = curr.data;
         if (entity.dead) {
-            // entities.splice(i, 1);
+            deadEntities.add(curr);
+            entities.remove(curr);
             continue;
         }
         // draw the entity
