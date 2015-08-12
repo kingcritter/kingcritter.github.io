@@ -31,7 +31,6 @@ var LinkedList = function() {
         // if not at the beginning
         if (n.prev != null) {
             n.prev.next = n.next;
-            this.first = n.next;
         } 
         // must be first
         else { 

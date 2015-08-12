@@ -37,13 +37,21 @@ var Bubble = function() {
             this.dead = true;
         }
     }
+    // resets the default state:
+    this.refresh = function() {
+        this.size = 1;
+        this.growing = true;
+        this.dead = false;
+    }
 }
 
 
-var bubbleFactory = function() {
+function bubbleFactory() {
     if (deadEntities.length != 0) {
-        var zombie = deadEntities.first;
-        deadEntities.remove(zombie);
+        var n = deadEntities.first;
+        deadEntities.remove(n);
+        var zombie = n.data;
+        zombie.refresh();
         return zombie;
     }
     else {
@@ -63,7 +71,9 @@ function click(event) {
     var b = bubbleFactory();
     b.x = x;
     b.y = y;
-    entities.add(b);    
+    entities.add(b);
+    console.log(entities);
+    console.log(deadEntities); 
 }
 
 function animationLoop() {
@@ -71,7 +81,9 @@ function animationLoop() {
     for (var curr = entities.first; curr != null; curr = curr.next) {
         var entity = curr.data;
         if (entity.dead) {
-            deadEntities.add(curr);
+            // add the entity to the deadlist
+            deadEntities.add(entity);
+            // remove the *node* from the entities list
             entities.remove(curr);
             continue;
         }
