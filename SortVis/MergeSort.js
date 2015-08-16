@@ -15,10 +15,8 @@ function actual_merge_sort(list, indices, history) {
 	var left = [indices[0], indices[1]/2];
 	var right = [indices[1]/2, indices[1]];  
 	// recursivly sort sublists
-	left = actual_merge_sort(list, left);
-	right = actual_merge_sort(list, right);
-
-	history.push(list);
+	left = actual_merge_sort(list, left, history);
+	right = actual_merge_sort(list, right, history);
 
 	return merge(list, left, right, history);
 }
@@ -39,9 +37,16 @@ function merge(list, left, right, history) {
 			rightCount++;
 		}
 
-		
+		var uglyMess = list.slice(0, leftCount);
+		var changedPart = list.slice(leftCount, right[1]);
+		var lastBit = list.slice(right[1], list.length);
+		uglyMess.concat(changedPart);
+		uglyMess.concat(lastBit);
 
-		history.push(result);
+		var lookingAt = [leftCount, rightCount];
+		var state = new HistoryState(uglyMess, lookingAt);
+
+		history.push(state);
 	}
 	// deal with leftover elements
 	while (left.length > 0) {

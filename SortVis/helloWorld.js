@@ -26,16 +26,16 @@ var listOfSorts = {
 	"insertion": insertionSort,
 	"bubble": bubbleSort,
 	"selection" : selectionSort
+	// "merge" : merge_sort
 };
 
 // history object to hold three things: an array, which is a copy
 // of the array at that moment in time; and array that contains 
 // the indices of the entries that are being looked at; and a new
 // array, which is totally optional, that is the sub array being built up.   
-function HistoryState(a, i, n) {
+function HistoryState(a, i) {
 	this.arr = a;
 	this.indices = i;
-	this.newArr = n;
 }
 
 var sortButton = {
