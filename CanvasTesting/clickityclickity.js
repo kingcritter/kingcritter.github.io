@@ -9,20 +9,18 @@ var entities = new LinkedList();
 // pool of objects to reuse
 var deadEntities = new LinkedList();
 
+
+
 var Entity = {
     x: 0,
     y: 0,
-    size: 0,
-    type: null, // "sprite", "shape"
-    shape: null, // if type = shape, this will describe the shape
-    sprite: null, // if type = sprite, this will be the filename 
     dead: false // if true, will get removed from entity list
 };
 
 
 
 var Bubble = function() {
-    this.animate = function() {
+    this.update = function() {
         if (this.growing) {
             this.size++;
         } else {
@@ -43,30 +41,32 @@ var Bubble = function() {
         this.shape = "circle";
         this.type = "shape";
     }
+    this.draw = function() {
+        drawCircle(this.x, this.y, this.size / 2);
+    }
 }
 
 
 function bubbleFactory() {
+    var result;
     if (deadEntities.length != 0) {
         var n = deadEntities.first;
         deadEntities.remove(n);
-        var zombie = n.data;
-        zombie.refresh();
-        return zombie;
+        result = n.data;
     }
     else {
-        var newGuy = new Bubble();
-        newGuy.prototype = Entity;
-        newGuy.refresh();
-        return newGuy;
+        result = new Bubble();
+        result.prototype = Entity;
     }
+    result.refresh();
+    return result;
 }
 
 
 
 function click(event) {
-    var x = event.x;
-    var y = event.y;
+    var x = event.clientX;
+    var y = event.clientY;
     x -= canvas.offsetLeft;
     y -= canvas.offsetTop;
     var b = bubbleFactory();
@@ -87,19 +87,10 @@ function animationLoop() {
             continue;
         }
         // draw the entity
-        entity.animate();
-        drawThing(entity);
+        entity.update();
+        entity.draw();
     }
 } 
-
-// draws entities based on their settings
-function drawThing(entity) {
-    if (entity.type === "shape") {
-        if (entity.shape === "circle") {
-            drawCircle(entity.x, entity.y, entity.size/2);
-        }
-    }
-}
 
 function drawCircle(x, y, radius) {
     if (radius < 0) {
