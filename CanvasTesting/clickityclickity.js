@@ -14,16 +14,14 @@ var Entity = {
     y: 0,
     size: 0,
     type: null, // "sprite", "shape"
+    shape: null, // if type = shape, this will describe the shape
+    sprite: null, // if type = sprite, this will be the filename 
     dead: false // if true, will get removed from entity list
 };
 
 
 
 var Bubble = function() {
-    this.growing = true;
-    this.x = 0;
-    this.y = 0;
-    this.size = 1;
     this.animate = function() {
         if (this.growing) {
             this.size++;
@@ -42,6 +40,8 @@ var Bubble = function() {
         this.size = 1;
         this.growing = true;
         this.dead = false;
+        this.shape = "circle";
+        this.type = "shape";
     }
 }
 
@@ -57,6 +57,7 @@ function bubbleFactory() {
     else {
         var newGuy = new Bubble();
         newGuy.prototype = Entity;
+        newGuy.refresh();
         return newGuy;
     }
 }
@@ -72,8 +73,6 @@ function click(event) {
     b.x = x;
     b.y = y;
     entities.add(b);
-    console.log(entities);
-    console.log(deadEntities); 
 }
 
 function animationLoop() {
@@ -89,9 +88,18 @@ function animationLoop() {
         }
         // draw the entity
         entity.animate();
-        drawCircle(entity.x, entity.y, entity.size/2);
+        drawThing(entity);
     }
 } 
+
+// draws entities based on their settings
+function drawThing(entity) {
+    if (entity.type === "shape") {
+        if (entity.shape === "circle") {
+            drawCircle(entity.x, entity.y, entity.size/2);
+        }
+    }
+}
 
 function drawCircle(x, y, radius) {
     if (radius < 0) {
