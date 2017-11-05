@@ -56,44 +56,12 @@ h1 {
 }
 
 
-/*#previewAndDrop {*/
-    /*position: relative;*/
-    /*overflow: hidden;*/
-    /*padding-top: 10px;*/
-    /*width: 100%;*/
-    /*right: 50%;*/
-/*}*/
-
-/*#imagePreview {*/
-    /*border: 5px solid black;*/
-    /*padding: 10px;*/
-/*}*/
-
 #imagePreview img {
     display: block;
     margin: auto;
     max-height: 100%;
     max-width: 100%;
 }
-
-/*#imageDropArea {*/
-    /*position: relative;*/
-    /*overflow: hidden;*/
-    /*float: left;*/
-    /*width: 48.8%;*/
-    /*left: 1.7999999999999972%;*/
-    /*height: 10em;*/
-    /*border: 2px dashed #ccc;*/
-    /*color: #ccc;*/
-    /*font-size: 1.5em;*/
-    /*line-height: 4;*/
-    /*text-align: center;*/
-    /*-webkit-user-select: none;*/
-    /*-moz-user-select: none;*/
-    /*-ms-user-select: none;*/
-    /*user-select: none;*/
-/*}*/
-
 #inputAndControls {
     overflow: hidden;
     padding-top: 10px;
@@ -125,7 +93,6 @@ h1 {
 textarea {
     width: 400px;
     height: 14em;
-    /*align-self: center;*/
 }
 
 .row {

@@ -4,7 +4,8 @@
 
 var IMAGES = {
     circle: "example-images/circle.png",
-    eagle: "example-images/eagle.png"
+    eagle: "example-images/eagle.png",
+    preview: "example-images/preview.png"
 };
 
 var TEXT = {
@@ -90,7 +91,7 @@ function setPreviewImg(imgName) {
         imgTag.src = IMAGES.eagle;
     } else if (imgName === "user") {
         if (userimg === null) {
-            imgTag.src = "Preview-icon.png";
+            imgTag.src = IMAGES.preview;
             noImageSelected = true;
         } else {
             imgTag.src = userimg;
@@ -108,5 +109,4 @@ document.ondrop = function(event) {
 
     var files = event.dataTransfer.files;
     setUserImage(files[0]);
-
 };
