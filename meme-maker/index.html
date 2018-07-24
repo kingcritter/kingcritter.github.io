@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Meme Maker</title>
+</head>
+<body>
+
+<div id="controls">
+    <select id="image-selector" onchange="makeMeme()"></select>
+    <input id="top-text"    placeholder="top text" />
+    <input id="bottom-text" placeholder="bottom text" />
+    <button onclick="makeMeme()">Make Meme</button>
+</div>
+
+<div>
+    <canvas id="canvas"></canvas>
+</div>
+
+<script src="FormatText.js"></script>
+<script src="index.js"></script>
+</body>
+</html>
