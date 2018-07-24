@@ -13,7 +13,6 @@ const ImageMacro = function ImageMacro(canvas, img, topText, bottomText) {
   this.canvas = canvas;
   this.ctx = this.canvas.getContext("2d");
   this.ctx.strokeStyle = "#fff";
-  this.ctx.lineWidth = 3;
   this.ctx.textAlign = "center";
   this.ctx.textBaseline = "bottom";
 
@@ -21,6 +20,7 @@ const ImageMacro = function ImageMacro(canvas, img, topText, bottomText) {
   this.ctx.drawImage(img, 0, 0, img.width, img.height);
 
   let topTextFormat = FormatText(this.canvas.width, this.canvas.height, this.ctx, "Impact", topText);
+  this.ctx.lineWidth = Math.ceil(topTextFormat.fontSize * .035);
   let lineNum = 1;
   for (let line of topTextFormat.lines) {
     this.ctx.font = topTextFormat.font;
@@ -30,6 +30,7 @@ const ImageMacro = function ImageMacro(canvas, img, topText, bottomText) {
   }
 
   let bottomTextFormat = FormatText(this.canvas.width, this.canvas.height, this.ctx, "Impact", bottomText);
+  this.ctx.lineWidth = Math.ceil(topTextFormat.fontSize * .035);
   lineNum = bottomTextFormat.lines.length - 1;
   for (let line of bottomTextFormat.lines) {
     this.ctx.font = bottomTextFormat.font;

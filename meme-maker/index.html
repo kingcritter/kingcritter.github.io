@@ -8,8 +8,8 @@
 
 <div id="controls">
     <select id="image-selector" onchange="makeMeme()"></select>
-    <input id="top-text"    placeholder="top text" />
-    <input id="bottom-text" placeholder="bottom text" />
+    <input onkeyup="makeMeme()" id="top-text"    placeholder="top text" />
+    <input onkeyup="makeMeme()" id="bottom-text" placeholder="bottom text" />
     <button onclick="makeMeme()">Make Meme</button>
 </div>
 
